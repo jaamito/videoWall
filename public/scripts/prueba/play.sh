@@ -1,0 +1,1 @@
+ssh pi@192.168.11.200 -i videowall "omxplayer --loop /home/pi/Videos/video-1.mp4

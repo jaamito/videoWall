@@ -21,3 +21,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/home/guardarVideo','VideoController@guardarVideo');
 Route::post('/home/guardarVideo','VideoController@guardarVideo');
+
+Route::get('/home/reproducirVideo','VideoController@reproducirVideo');
+Route::post('/home/reproducirVideo','VideoController@reproducirVideo');

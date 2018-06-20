@@ -1,0 +1,1 @@
+ssh pi@192.168.11.200 -i videowall "killall -9 omxplayer.bi
