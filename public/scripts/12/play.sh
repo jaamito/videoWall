@@ -1,1 +1,1 @@
-ssh pi@192.168.10.212 -i videowall "omxplayer --loop /home/pi/Videos/video-1.mp4
+ssh pi@192.168.10.212 -i videowall 'omxplayer --loop --no-osd /home/pi/Videos/Video2' > /dev/null 2>&1 &

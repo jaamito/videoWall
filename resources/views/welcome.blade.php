@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    <img src="i2cat2.jpg" style="width: 550px;height: 250px">
                 </div>
 
                 <div class="links">

@@ -1,0 +1,1 @@
+ssh pi@192.168.10.215 -i videowall 'omxplayer --loop --no-osd /home/pi/Videos/hola' &

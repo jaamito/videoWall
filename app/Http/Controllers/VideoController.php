@@ -31,23 +31,6 @@ class VideoController extends Controller
 	        $vid->name = $nombre;
 	        $vid->save();
 
-	        //Prueba luego eliminar-----------------------------------------------------------------------
-	        $file = public_path().'/scripts/prueba/copy.sh';
-			$texto = "scp -i videowall ".public_path().'/video/'.$nombre." pi@192.168.11.200:/home/pi/Desktop";
-			$fp = fopen($file, "w");
-			fwrite($fp, $texto);
-			fclose($fp);
-			$process = new Process('sh '.public_path().'/scripts/prueba/copy.sh');
-			$process->run();
-			//Prueba luego eliminar-----------------------------------------------------------------------
-
-			// ejecutar despues de que el comando finalice
-			if (!$process->isSuccessful()) {
-			    throw new ProcessFailedException($process);
-			}
-
-			echo $process->getOutput();
-
         	$file1 = public_path().'/scripts/11/copy.sh';
         	$file2 = public_path().'/scripts/12/copy.sh';
         	$file3 = public_path().'/scripts/21/copy.sh';
@@ -68,7 +51,7 @@ class VideoController extends Controller
 			fclose($fp2);
 			fclose($fp3);
 			fclose($fp4);
-			/* QUITAR ESTO CUANDO ESTEN EN RED
+	
 			$process = new Process('sh '.public_path().'/scripts/11/copy.sh');
 			$process->run();
 			// ejecutar despues de que el comando finalice
@@ -77,6 +60,7 @@ class VideoController extends Controller
 			}
 
 			echo $process->getOutput();
+			sleep(4);
 
 			$process = new Process('sh '.public_path().'/scripts/12/copy.sh');
 			$process->run();
@@ -86,6 +70,7 @@ class VideoController extends Controller
 			}
 
 			echo $process->getOutput();
+			sleep(4);
 
 			$process = new Process('sh '.public_path().'/scripts/21/copy.sh');
 			$process->run();
@@ -95,6 +80,7 @@ class VideoController extends Controller
 			}
 
 			echo $process->getOutput();
+			sleep(4);
 
 			$process = new Process('sh '.public_path().'/scripts/22/copy.sh');
 			$process->run();
@@ -104,7 +90,7 @@ class VideoController extends Controller
 			}
 
 			echo $process->getOutput();
-			*/
+			
 	        \Session::flash('flash_message', 'Vídeo guardado y enviado correctamente ');
 	    	return redirect('home');
 		}else{
@@ -116,7 +102,128 @@ class VideoController extends Controller
     }
     public function reproducirVideo(Request $request){
 
+    
+    	if ($request->input('pantalla11') == '1'){
+    		if($request->input('11') != '0'){
+    			$file1 = public_path().'/scripts/11/play.sh';
+    			$texto1 = "ssh pi@192.168.10.215 -i videowall 'omxplayer --loop --no-osd /home/pi/Videos/".$request->input('11')."' > /dev/null 2>&1 &";
+				$fp1 = fopen($file1, "w");
+				fwrite($fp1, $texto1);
+				fclose($fp1);
+				$process = new Process('sh '.public_path().'/scripts/11/play.sh');
+				$process->run();
+				// ejecutar despues de que el comando finalice
+				if (!$process->isSuccessful()) {
+				    throw new ProcessFailedException($process);
+				}
 
+				echo $process->getOutput();
+				}
+
+			}
+    	if ($request->input('pantalla12') == '1'){
+    		if($request->input('12') != '0'){
+    			$file1 = public_path().'/scripts/12/play.sh';
+    			$texto1 = "ssh pi@192.168.10.212 -i videowall 'omxplayer --loop --no-osd /home/pi/Videos/".$request->input('12')."' > /dev/null 2>&1 &";
+				$fp1 = fopen($file1, "w");
+				fwrite($fp1, $texto1);
+				fclose($fp1);
+				$process = new Process('sh '.public_path().'/scripts/12/play.sh');
+				$process->run();
+				// ejecutar despues de que el comando finalice
+				if (!$process->isSuccessful()) {
+				    throw new ProcessFailedException($process);
+				}
+
+				echo $process->getOutput();
+				}
+    	}
+    	if ($request->input('pantalla21') == '1'){
+    		if($request->input('21') != '0'){
+    			$file1 = public_path().'/scripts/21/play.sh';
+    			$texto1 = "ssh pi@192.168.10.214 -i videowall 'omxplayer --loop --no-osd /home/pi/Videos/".$request->input('21')."' > /dev/null 2>&1 &";
+				$fp1 = fopen($file1, "w");
+				fwrite($fp1, $texto1);
+				fclose($fp1);
+
+				$process = new Process('sh '.public_path().'/scripts/21/play.sh');
+				$process->run();
+				// ejecutar despues de que el comando finalice
+				if (!$process->isSuccessful()) {
+				    throw new ProcessFailedException($process);
+				}
+
+				echo $process->getOutput();
+				}
+    	}
+    	if ($request->input('pantalla22') == '1'){
+    		if($request->input('22') != '0'){
+    			$file1 = public_path().'/scripts/22/play.sh';
+    			$texto1 = "ssh pi@192.168.10.213 -i videowall 'omxplayer --loop --no-osd /home/pi/Videos/".$request->input('22')."' > /dev/null 2>&1 &";
+				$fp1 = fopen($file1, "w");
+				fwrite($fp1, $texto1);
+				fclose($fp1);
+				$process = new Process('sh '.public_path().'/scripts/22/play.sh');
+				$process->run();
+				// ejecutar despues de que el comando finalice
+				if (!$process->isSuccessful()) {
+				    throw new ProcessFailedException($process);
+				}
+
+				echo $process->getOutput();
+				}
+    	}
+    	return redirect('home');
+    }
+
+    public function pararVideo(Request $request){
+
+    	if ($request->input('pantalla11') == '1'){
+				$process = new Process('sh '.public_path().'/scripts/11/stop.sh');
+				$process->run();
+				// ejecutar despues de que el comando finalice
+				if (!$process->isSuccessful()) {
+				    throw new ProcessFailedException($process);
+				}
+
+				echo $process->getOutput();
+    		}
+
+
+    	if ($request->input('pantalla12') == '1'){
+				$process = new Process('sh '.public_path().'/scripts/12/stop.sh');
+				$process->run();
+				// ejecutar despues de que el comando finalice
+				if (!$process->isSuccessful()) {
+				    throw new ProcessFailedException($process);
+				}
+
+				echo $process->getOutput();
+    	}
+
+    	if ($request->input('pantalla21') == '1'){
+				$process = new Process('sh '.public_path().'/scripts/21/stop.sh');
+				$process->run();
+				// ejecutar despues de que el comando finalice
+				if (!$process->isSuccessful()) {
+				    throw new ProcessFailedException($process);
+				}
+
+				echo $process->getOutput();
+    	}
+
+    	if ($request->input('pantalla22') == '1'){
+				$process = new Process('sh '.public_path().'/scripts/22/stop.sh');
+				$process->run();
+				// ejecutar despues de que el comando finalice
+				if (!$process->isSuccessful()) {
+				    throw new ProcessFailedException($process);
+				}
+
+				echo $process->getOutput();
+    	}
+
+    	return redirect('home');
 
     }
 }

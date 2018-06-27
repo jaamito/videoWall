@@ -24,3 +24,7 @@ Route::post('/home/guardarVideo','VideoController@guardarVideo');
 
 Route::get('/home/reproducirVideo','VideoController@reproducirVideo');
 Route::post('/home/reproducirVideo','VideoController@reproducirVideo');
+
+Route::get('/home/pararVideo','VideoController@pararVideo');
+Route::post('/home/pararVideo','VideoController@pararVideo');
+
