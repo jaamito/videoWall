@@ -79,15 +79,13 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    <img src="i2cat2.jpg" style="width: 550px;height: 250px">
+                    <img src="i2cat2.jpg" style="width: 550px;height: 250px" class="pantIni">
                 </div>
-
+                <!--Color naranja: #ff6b34 y oscuro: #272727 y oscuro/claro: #353535 -->
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
+                    <a href="http://www.i2cat.net/es">i2cat</a>
                     <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="https://github.com/jaamito/videoWall">GitHub</a>
                 </div>
             </div>
         </div>
