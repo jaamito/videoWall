@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,6 +20,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
     <style type="text/css">
         /* Smartphones (portrait and landscape) ----------- */  
         @media only screen  
@@ -27,9 +29,6 @@
         /* Styles */
             .pant{
                 display: none;
-            }
-            .pantIni{
-               background: url(https://www.google.es/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiwjt-6z_PbAhVD7xQKHZroC8YQjRx6BAgBEAU&url=http%3A%2F%2Fwww.i2cat.net%2Fen&psig=AOvVaw13YVPPMTESAoCxtJqnhTNa&ust=1530181237114484) no-repeat; 
             }
         }  
         /* Smartphones (landscape) ----------- */  
@@ -136,5 +135,6 @@
             @yield('content')
         </main>
     </div>
+   
 </body>
 </html>
