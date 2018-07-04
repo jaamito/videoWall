@@ -30,6 +30,13 @@
             .pant{
                 display: none;
             }
+            .movil{
+                display: none;
+            }
+
+            .movilx{
+                display: block;
+            }
         }  
         /* Smartphones (landscape) ----------- */  
         @media only screen  

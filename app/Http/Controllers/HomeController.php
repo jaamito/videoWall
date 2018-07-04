@@ -24,6 +24,7 @@ class HomeController extends Controller
     public function index()
     {
         $videos = nomVid::all();
-        return view('home',array('arrayVideos'=>$videos));
+        $mx = "1";
+        return view('home',array('arrayVideos'=>$videos,'mensaje'=>$mx));
     }
 }

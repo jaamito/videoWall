@@ -1,1 +1,0 @@
-omxplayer --loop --no-osd /home/pi/Desktop/hola && exit

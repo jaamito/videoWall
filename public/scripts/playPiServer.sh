@@ -1,0 +1,1 @@
+ssh pi@192.168.10.216 -i videowall 'ffmpeg -stream_loop -1 -re -i /home/pi/Videos/Video3 -vcodec copy -f avi -an udp://239.0.1.23:1234' > /dev/null 2>&1 &

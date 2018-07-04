@@ -1,1 +1,1 @@
-scp -i videowall /home/i2cat/Desktop/laravelapp1/public/video/Video2 pi@192.168.10.215:/home/pi/Videos
+scp -i videowall /home/i2cat/Desktop/laravelapp1/public/video/Video4 pi@192.168.10.215:/home/pi/Videos > /dev/null 2>&1 &

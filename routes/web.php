@@ -22,9 +22,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/guardarVideo','VideoController@guardarVideo');
 Route::post('/home/guardarVideo','VideoController@guardarVideo');
 
+Route::get('/home/reproducirVideoPiWall','VideoController@reproducirVideoPiWall');
+Route::post('/home/reproducirVideoPiWall','VideoController@reproducirVideoPiWall');
+
 Route::get('/home/reproducirVideo','VideoController@reproducirVideo');
 Route::post('/home/reproducirVideo','VideoController@reproducirVideo');
 
 Route::get('/home/pararVideo','VideoController@pararVideo');
 Route::post('/home/pararVideo','VideoController@pararVideo');
 
+Route::get('/home/reiniciarRaspi','VideoController@reiniciarRaspi');
+Route::post('/home/reiniciarRaspi','VideoController@reiniciarRaspi');
