@@ -18,7 +18,7 @@ class VideoController extends Controller
     
     public function guardarVideo(Request $request)
     {
-        
+        $videos = nomVid::all();
     	$file = $request->input('file');
     	$mime = $request->file('file')->getClientOriginalExtension();
     	$nombre = $request->input('name');
@@ -33,11 +33,11 @@ class VideoController extends Controller
         	$file3 = public_path().'/scripts/21/copy.sh';
         	$file4 = public_path().'/scripts/22/copy.sh';
         	$file5 = public_path().'/scripts/copyServer.sh';
-			$texto1 = "scp -i videowall ".public_path().'/video/'.$nombre." pi@192.168.10.215:/home/pi/Videos > /dev/null 2>&1 &";
-			$texto2 = "scp -i videowall ".public_path().'/video/'.$nombre." pi@192.168.10.212:/home/pi/Videos > /dev/null 2>&1 &";
-			$texto3 = "scp -i videowall ".public_path().'/video/'.$nombre." pi@192.168.10.214:/home/pi/Videos > /dev/null 2>&1 &";
-			$texto4 = "scp -i videowall ".public_path().'/video/'.$nombre." pi@192.168.10.213:/home/pi/Videos > /dev/null 2>&1 &";
-			$texto5 = "scp -i ".public_path().'/video/'.$nombre." pi@192.168.10.216:/home/pi/Videos > /dev/null 2>&1 &";
+			$texto1 = "scp ".public_path().'/video/'.$nombre." pi@192.168.10.215:/home/pi/Videos > /dev/null 2>&1 &";
+			$texto2 = "scp ".public_path().'/video/'.$nombre." pi@192.168.10.212:/home/pi/Videos > /dev/null 2>&1 &";
+			$texto3 = "scp ".public_path().'/video/'.$nombre." pi@192.168.10.214:/home/pi/Videos > /dev/null 2>&1 &";
+			$texto4 = "scp ".public_path().'/video/'.$nombre." pi@192.168.10.213:/home/pi/Videos > /dev/null 2>&1 &";
+			$texto5 = "scp ".public_path().'/video/'.$nombre." pi@192.168.10.216:/home/pi/Videos > /dev/null 2>&1 &";
 			$fp1 = fopen($file1, "w");
 			$fp2 = fopen($file2, "w");
 			$fp3 = fopen($file3, "w");
@@ -64,7 +64,7 @@ class VideoController extends Controller
 			if (!$process->isSuccessful()) {
 			    throw new ProcessFailedException($process);
 			}
-
+			
 			echo $process->getOutput();
 			
 
@@ -84,7 +84,7 @@ class VideoController extends Controller
 			if (!$process->isSuccessful()) {
 			    throw new ProcessFailedException($process);
 			}
-
+			
 			echo $process->getOutput();
 			
 			$process = new Process('sh '.public_path().'/scripts/22/copy.sh');
@@ -93,7 +93,7 @@ class VideoController extends Controller
 			if (!$process->isSuccessful()) {
 			    throw new ProcessFailedException($process);
 			}
-
+			
 			$process = new Process('sh '.public_path().'/scripts/copyServer.sh');
 			$process->run();
 			// ejecutar despues de que el comando finalice
@@ -104,11 +104,11 @@ class VideoController extends Controller
 			echo $process->getOutput();
 			$mensaje = "1";
 	        \Session::flash('flash_message', 'Vídeo guardado y enviado correctamente ');
-	    	return view('home',array('mensaje'=>$mensaje));
+	    	return view('home',array('arrayVideos'=>$videos,'mensaje'=>$mensaje));
 		}else{
 			$mensaje = "0";
 			\Session::flash('flash_message', 'Vídeo con formato incorrecto!');
-	    	return view('home',array('mensaje'=>$mensaje));
+	    	return view('home',array('arrayVideos'=>$videos,'mensaje'=>$mensaje));
 
 		}
     }
@@ -118,7 +118,7 @@ class VideoController extends Controller
     	if ($request->input('pantalla11') == '1'){
     		if($request->input('11') != '0'){
     			$file1 = public_path().'/scripts/11/play.sh';
-    			$texto1 = "ssh pi@192.168.10.215 -i videowall 'omxplayer --loop --no-osd /home/pi/Videos/".$request->input('11')."' > /dev/null 2>&1 &";
+    			$texto1 = "ssh pi@192.168.10.215 'omxplayer --loop --no-osd /home/pi/Videos/".$request->input('11')."' > /dev/null 2>&1 &";
 				$fp1 = fopen($file1, "w");
 				fwrite($fp1, $texto1);
 				fclose($fp1);
@@ -138,7 +138,7 @@ class VideoController extends Controller
     	if ($request->input('pantalla12') == '1'){
     		if($request->input('12') != '0'){
     			$file1 = public_path().'/scripts/12/play.sh';
-    			$texto1 = "ssh pi@192.168.10.212 -i videowall 'omxplayer --loop --no-osd /home/pi/Videos/".$request->input('12')."' > /dev/null 2>&1 &";
+    			$texto1 = "ssh pi@192.168.10.212 'omxplayer --loop --no-osd /home/pi/Videos/".$request->input('12')."' > /dev/null 2>&1 &";
 				$fp1 = fopen($file1, "w");
 				fwrite($fp1, $texto1);
 				fclose($fp1);
@@ -157,7 +157,7 @@ class VideoController extends Controller
     	if ($request->input('pantalla21') == '1'){
     		if($request->input('21') != '0'){
     			$file1 = public_path().'/scripts/21/play.sh';
-    			$texto1 = "ssh pi@192.168.10.214 -i videowall 'omxplayer --loop --no-osd /home/pi/Videos/".$request->input('21')."' > /dev/null 2>&1 &";
+    			$texto1 = "ssh pi@192.168.10.214 'omxplayer --loop --no-osd /home/pi/Videos/".$request->input('21')."' > /dev/null 2>&1 &";
 				$fp1 = fopen($file1, "w");
 				fwrite($fp1, $texto1);
 				fclose($fp1);
@@ -176,7 +176,7 @@ class VideoController extends Controller
     	if ($request->input('pantalla22') == '1'){
     		if($request->input('22') != '0'){
     			$file1 = public_path().'/scripts/22/play.sh';
-    			$texto1 = "ssh pi@192.168.10.213 -i videowall 'omxplayer --loop --no-osd /home/pi/Videos/".$request->input('22')."' > /dev/null 2>&1 &";
+    			$texto1 = "ssh pi@192.168.10.213 'omxplayer --loop --no-osd /home/pi/Videos/".$request->input('22')."' > /dev/null 2>&1 &";
 				$fp1 = fopen($file1, "w");
 				fwrite($fp1, $texto1);
 				fclose($fp1);
@@ -252,7 +252,7 @@ class VideoController extends Controller
 
     	if($reiniciarRaspi == "1"){
     		$file1 = public_path().'/scripts/reiniciar.sh';
-			$texto1 = "ssh pi@192.168.10.215 -i videowall 'sudo init 6'";
+			$texto1 = "ssh pi@192.168.10.215 'sudo init 6'";
 			$fp1 = fopen($file1, "w");
 			fwrite($fp1, $texto1);
 			fclose($fp1);
@@ -262,7 +262,7 @@ class VideoController extends Controller
 
     	if($reiniciarRaspi == "2"){
     		$file1 = public_path().'/scripts/reiniciar.sh';
-			$texto1 = "ssh pi@192.168.10.212 -i videowall 'sudo init 6'";
+			$texto1 = "ssh pi@192.168.10.212 'sudo init 6'";
 			$fp1 = fopen($file1, "w");
 			fwrite($fp1, $texto1);
 			fclose($fp1);
@@ -272,7 +272,7 @@ class VideoController extends Controller
 
     	if($reiniciarRaspi == "3"){
     		$file1 = public_path().'/scripts/reiniciar.sh';
-			$texto1 = "ssh pi@192.168.10.214 -i videowall 'sudo init 6'";
+			$texto1 = "ssh pi@192.168.10.214 'sudo init 6'";
 			$fp1 = fopen($file1, "w");
 			fwrite($fp1, $texto1);
 			fclose($fp1);
@@ -282,7 +282,7 @@ class VideoController extends Controller
 
     	if($reiniciarRaspi == "4"){
     		$file1 = public_path().'/scripts/reiniciar.sh';
-			$texto1 = "ssh pi@192.168.10.213 -i videowall 'sudo init 6'";
+			$texto1 = "ssh pi@192.168.10.213 'sudo init 6'";
 			$fp1 = fopen($file1, "w");
 			fwrite($fp1, $texto1);
 			fclose($fp1);
@@ -298,7 +298,7 @@ class VideoController extends Controller
 		$process->run();
 
 		$file1 = public_path().'/scripts/11/playPi.sh';
-		$texto1 = "ssh pi@192.168.10.215 -i videowall 'pwomxplayer -A udp://239.0.1.23:1234?buffer_size=1200000B' > /dev/null 2>&1 &";
+		$texto1 = "ssh pi@192.168.10.215 'pwomxplayer -A udp://239.0.1.23:1234?buffer_size=1200000B' > /dev/null 2>&1 &";
 		$fp1 = fopen($file1, "w");
 		fwrite($fp1, $texto1);
 		fclose($fp1);
@@ -313,7 +313,7 @@ class VideoController extends Controller
 		echo $process->getOutput();
 		
 		$file1 = public_path().'/scripts/12/playPi.sh';
-		$texto1 = "ssh pi@192.168.10.212 -i videowall 'pwomxplayer -A udp://239.0.1.23:1234?buffer_size=1200000B' > /dev/null 2>&1 &";
+		$texto1 = "ssh pi@192.168.10.212 'pwomxplayer -A udp://239.0.1.23:1234?buffer_size=1200000B' > /dev/null 2>&1 &";
 		$fp1 = fopen($file1, "w");
 		fwrite($fp1, $texto1);
 		fclose($fp1);
@@ -329,7 +329,7 @@ class VideoController extends Controller
 			
 
 		$file1 = public_path().'/scripts/21/playPi.sh';
-		$texto1 = "ssh pi@192.168.10.214 -i videowall 'pwomxplayer -A udp://239.0.1.23:1234?buffer_size=1200000B' > /dev/null 2>&1 &";
+		$texto1 = "ssh pi@192.168.10.214 'pwomxplayer -A udp://239.0.1.23:1234?buffer_size=1200000B' > /dev/null 2>&1 &";
 		$fp1 = fopen($file1, "w");
 		fwrite($fp1, $texto1);
 		fclose($fp1);
@@ -345,7 +345,7 @@ class VideoController extends Controller
 				
 
 		$file1 = public_path().'/scripts/22/playPi.sh';
-		$texto1 = "ssh pi@192.168.10.213 -i videowall 'pwomxplayer -A udp://239.0.1.23:1234?buffer_size=1200000B' > /dev/null 2>&1 &";
+		$texto1 = "ssh pi@192.168.10.213 'pwomxplayer -A udp://239.0.1.23:1234?buffer_size=1200000B' > /dev/null 2>&1 &";
 		$fp1 = fopen($file1, "w");
 		fwrite($fp1, $texto1);
 		fclose($fp1);
@@ -363,7 +363,7 @@ class VideoController extends Controller
 		// Server
 		
 			$file1 = public_path().'/scripts/playPiServer.sh';
-			$texto1 = "ssh pi@192.168.10.216 -i videowall 'ffmpeg -stream_loop -1 -re -i /home/pi/Videos/".$video." -vcodec copy -f avi -an udp://239.0.1.23:1234' > /dev/null 2>&1 &";
+			$texto1 = "ssh pi@192.168.10.216 'ffmpeg -stream_loop -1 -re -i /home/pi/Videos/".$video." -vcodec copy -f avi -an udp://239.0.1.23:1234' > /dev/null 2>&1 &";
 			$fp1 = fopen($file1, "w");
 			fwrite($fp1, $texto1);
 			fclose($fp1);

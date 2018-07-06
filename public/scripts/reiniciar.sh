@@ -1,1 +1,1 @@
-ssh pi@192.168.10.214 -i videowall 'sudo init 6'
+ssh pi@192.168.10.213 -i videowall 'sudo init 6'
