@@ -1,1 +1,1 @@
-ssh pi@192.168.10.212 -i videowall 'pwomxplayer -A udp://239.0.1.23:1234?buffer_size=1200000B' > /dev/null 2>&1 &
+ssh pi@192.168.10.212 'pwomxplayer -A udp://239.0.1.23:1234?buffer_size=1200000B' > /dev/null 2>&1 &
