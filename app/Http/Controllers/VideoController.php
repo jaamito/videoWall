@@ -18,99 +18,53 @@ class VideoController extends Controller
     
     public function guardarVideo(Request $request)
     {
-        $videos = nomVid::all();
     	$file = $request->input('file');
-    	$mime = $request->file('file')->getClientOriginalExtension();
-    	$nombre = $request->input('name');
-		
-		if ($mime == "flv" || $mime == "mp4" || $mime == "m3u8" || $mime == "ts" || $mime == "3gp" || $mime == "mov" || $mime == "avi" || $mime == "wmv"){
-		  	$video = Input::file("file");
-	        $vPath = public_path().'/video/';
-	        $video->move($vPath, $request->input('name'));
+	    $nombre = $request->input('name');
+	    if($nombre){
+	    	if($request->hasFile('file')){
+	    		$videos = nomVid::all();
+			    $mime = $request->file('file')->getClientOriginalExtension();
+				if ($mime == "flv" || $mime == "mp4" || $mime == "m3u8" || $mime == "ts" || $mime == "3gp" || $mime == "mov" || $mime == "avi" || $mime == "wmv"){
+				  	$video = Input::file("file");
+			        $vPath = public_path().'/video/';
+			        $video->move($vPath, $request->input('name'));
 
-        	$file1 = public_path().'/scripts/11/copy.sh';
-        	$file2 = public_path().'/scripts/12/copy.sh';
-        	$file3 = public_path().'/scripts/21/copy.sh';
-        	$file4 = public_path().'/scripts/22/copy.sh';
-        	$file5 = public_path().'/scripts/copyServer.sh';
-			$texto1 = "scp ".public_path().'/video/'.$nombre." pi@192.168.10.215:/home/pi/Videos > /dev/null 2>&1 &";
-			$texto2 = "scp ".public_path().'/video/'.$nombre." pi@192.168.10.212:/home/pi/Videos > /dev/null 2>&1 &";
-			$texto3 = "scp ".public_path().'/video/'.$nombre." pi@192.168.10.214:/home/pi/Videos > /dev/null 2>&1 &";
-			$texto4 = "scp ".public_path().'/video/'.$nombre." pi@192.168.10.213:/home/pi/Videos > /dev/null 2>&1 &";
-			$texto5 = "scp ".public_path().'/video/'.$nombre." pi@192.168.10.216:/home/pi/Videos > /dev/null 2>&1 &";
-			$fp1 = fopen($file1, "w");
-			$fp2 = fopen($file2, "w");
-			$fp3 = fopen($file3, "w");
-			$fp4 = fopen($file4, "w");
-			$fp5 = fopen($file5, "w");
-			fwrite($fp1, $texto1);
-			fwrite($fp2, $texto2);
-			fwrite($fp3, $texto3);
-			fwrite($fp4, $texto4);
-			fwrite($fp5, $texto5);
-			fclose($fp1);
-			fclose($fp2);
-			fclose($fp3);
-			fclose($fp4);
-			fclose($fp5);
-			
-			$vid = new nomVid();
-	        $vid->name = $nombre;
-	        $vid->save();
+			    	$file = public_path().'/scripts/copyServer.sh';
+					$texto = "scp ".public_path().'/video/'.$nombre." pi@192.168.10.216:/home/pi/Videos &";
+					$fp = fopen($file, "w");
+					fwrite($fp, $texto);
+					fclose($fp);
 
-			$process = new Process('sh '.public_path().'/scripts/11/copy.sh');
-			$process->run();
-			// ejecutar despues de que el comando finalice
-			if (!$process->isSuccessful()) {
-			    throw new ProcessFailedException($process);
+					$process = new Process('sh '.public_path().'/scripts/copyServer.sh');
+					$process->run();
+					// ejecutar despues de que el comando finalice
+					if (!$process->isSuccessful()) {
+					    throw new ProcessFailedException($process);
+					}
+
+					echo $process->getOutput();
+					
+					$vid = new nomVid();
+			        $vid->name = $nombre;
+			        $vid->save();
+			        
+			        \Session::flash('flash_message', 'Vídeo guardado y enviado correctamente ');
+			    	return redirect("home");
+				}else{
+					
+					\Session::flash('flash_message', 'Vídeo con formato incorrecto!');
+			    	return redirect("home");
+				}
+	    		
+	    	}else{
+		        \Session::flash('flash_message', 'No has subido ningun archivo!');
+			    	return redirect("home");
 			}
-			
-			echo $process->getOutput();
-			
-
-			$process = new Process('sh '.public_path().'/scripts/12/copy.sh');
-			$process->run();
-			// ejecutar despues de que el comando finalice
-			if (!$process->isSuccessful()) {
-			    throw new ProcessFailedException($process);
-			}
-
-			echo $process->getOutput();
-			
-
-			$process = new Process('sh '.public_path().'/scripts/21/copy.sh');
-			$process->run();
-			// ejecutar despues de que el comando finalice
-			if (!$process->isSuccessful()) {
-			    throw new ProcessFailedException($process);
-			}
-			
-			echo $process->getOutput();
-			
-			$process = new Process('sh '.public_path().'/scripts/22/copy.sh');
-			$process->run();
-			// ejecutar despues de que el comando finalice
-			if (!$process->isSuccessful()) {
-			    throw new ProcessFailedException($process);
-			}
-			
-			$process = new Process('sh '.public_path().'/scripts/copyServer.sh');
-			$process->run();
-			// ejecutar despues de que el comando finalice
-			if (!$process->isSuccessful()) {
-			    throw new ProcessFailedException($process);
-			}
-
-			echo $process->getOutput();
-			$mensaje = "1";
-	        \Session::flash('flash_message', 'Vídeo guardado y enviado correctamente ');
-	    	return view('home',array('arrayVideos'=>$videos,'mensaje'=>$mensaje));
 		}else{
-			$mensaje = "0";
-			\Session::flash('flash_message', 'Vídeo con formato incorrecto!');
-	    	return view('home',array('arrayVideos'=>$videos,'mensaje'=>$mensaje));
-
+			\Session::flash('flash_message', 'Faltan campos por rellenar!');
+			    	return redirect("home");
 		}
+
     }
     public function reproducirVideo(Request $request){
 
@@ -203,14 +157,13 @@ class VideoController extends Controller
     	if ($request->input('pantalla11') == '1'){
 				$process = new Process('sh '.public_path().'/scripts/11/stop.sh');
 				$process->run();
-				// ejecutar despues de que el comando finalice
+				// ejecutar despues de que el comando para ver errores
 				//if (!$process->isSuccessful()) {
 				    //throw new ProcessFailedException($process);
 				//}
 
 				echo $process->getOutput();
     		}
-
 
     	if ($request->input('pantalla12') == '1'){
 				$process = new Process('sh '.public_path().'/scripts/12/stop.sh');

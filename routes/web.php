@@ -19,7 +19,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/home/guardarVideo','VideoController@guardarVideo');
 Route::post('/home/guardarVideo','VideoController@guardarVideo');
 
 Route::get('/home/reproducirVideoPiWall','VideoController@reproducirVideoPiWall');

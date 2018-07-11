@@ -2,26 +2,21 @@
 
 @section('content')
 
-<div class="container">
+<div class="container" id="cargando" style="display: none;">
+  <div class="row justify-content-center" >
+    <div id='imagencargando'></div>
+  </div>
+</div>
+
+<div class="container" id="principal" style="display: block;">
 <!--Guardar vídeos-->
   <div class="row justify-content-center" >
-    @if($mensaje === "1")
       @if(Session::has('flash_message'))
-         <div class="alert alert-success alert-dismissable col-md-offset-6 col-md-6">
+         <div class="alert alert-dark alert-dismissable col-md-offset-6 col-md-6">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
            {{Session::get('flash_message')}}
         </div>
       @endif
-    @endif
-
-    @if($mensaje === "0")
-      @if(Session::has('flash_message'))
-         <div class="alert alert-danger alert-dismissable col-md-offset-6 col-md-6">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-           {{Session::get('flash_message')}}
-        </div>
-      @endif
-    @endif
   </div>
     <div class="row justify-content-center" >
       <div class="col-md-3 movil" id="btnApagar"> 
@@ -41,13 +36,13 @@
                     {{ csrf_field() }}
 
                         <label style="color: #ff6b34;font-size: 20px">Fichero:</label>
-                        <input type="file" name="file" required>
+                        <input type="file" name="file" value="0">
 
                         <label style="color: #ff6b34;font-size: 20px">Nombre:</label>
-                        <input type="text" name="name" required></br></br>
+                        <input type="text" name="name" placeholder="Introduce nombre..."></br></br>
                     
                         <p style="color: #ff6b34;font-size: 20px">El vídeo se guardará en todas las pantallas</p>
-                        <button type="submit" class="btn" style="background-color: #ff6b34; color: white;font-size: 20px">
+                        <button type="submit" class="btn" onclick="imagen()" style="background-color: #ff6b34; color: white;font-size: 20px">
                             Añadir vídeo
                         </button>
                     </form>
@@ -275,6 +270,16 @@
 </div>
 <!--Volver-->
 <script type="text/javascript">
+
+        function imagen(){
+          document.getElementById('principal').style.display = 'none';
+          document.getElementById('cargando').style.display = 'block';
+          imagen = '<img style="margin-top: 50%" src="loader.gif" alt="cargando..." />'
+          document.getElementById('imagencargando').innerHTML = imagen;
+
+        }
+
+
 
         function mostrar1(){
           document.getElementById('divEdit1').style.display = 'block';
