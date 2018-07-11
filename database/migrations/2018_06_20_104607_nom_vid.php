@@ -13,7 +13,7 @@ class NomVid extends Migration
      */
     public function up()
     {
-        Schema::create('nomVid', function (Blueprint $table) {
+        Schema::create('nom_vids', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
@@ -27,6 +27,6 @@ class NomVid extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nomVid');
+        Schema::dropIfExists('nom_vids');
     }
 }

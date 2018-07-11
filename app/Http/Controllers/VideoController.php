@@ -24,7 +24,7 @@ class VideoController extends Controller
 	    	if($request->hasFile('file')){
 	    		$videos = nomVid::all();
 			    $mime = $request->file('file')->getClientOriginalExtension();
-				if ($mime == "flv" || $mime == "mp4" || $mime == "m3u8" || $mime == "ts" || $mime == "3gp" || $mime == "mov" || $mime == "avi" || $mime == "wmv"){
+				if ($mime == "flv" || $mime == "mp4" || $mime == "m3u8" || $mime == "ts" || $mime == "3gp" || $mime == "mov" || $mime == "avi" || $mime == "wmv" || $mime == "mkv"){
 				  	$video = Input::file("file");
 			        $vPath = public_path().'/video/';
 			        $video->move($vPath, $request->input('name'));
@@ -36,6 +36,7 @@ class VideoController extends Controller
 					fclose($fp);
 
 					$process = new Process('sh '.public_path().'/scripts/copyServer.sh');
+					$process->setTimeout(60000);
 					$process->run();
 					// ejecutar despues de que el comando finalice
 					if (!$process->isSuccessful()) {

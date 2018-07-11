@@ -1,1 +1,1 @@
-ssh pi@192.168.10.216 -i videowall 'killall -9 ffmpeg' &
+ssh pi@192.168.10.216 -i videowall 'killall -9 ffmpeg && sleep 1'
